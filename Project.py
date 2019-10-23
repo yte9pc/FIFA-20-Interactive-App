@@ -48,6 +48,7 @@ def connection():
                             'Dribbling' , 'Defending', 'Physicality', 'Height', 'Base Stats',
                             'In Game Stats']
     playersData.to_csv('FIFA Player Info.csv')
+    return(pd.read_csv('FIFA Player Info.csv'))
         
         
 def NoneTypeCheck(data, listname, item = None, iterator = None, get = None):
