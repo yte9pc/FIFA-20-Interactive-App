@@ -8,10 +8,16 @@ import pandas as pd
 
 def connection():
     playersData = pd.DataFrame()
-    for page in range(1,71):
+    for page in range(1,560):
         # Url address 
-        url = 'https://www.futbin.com/20/players?page='+str(page)+'&sort=Player_Rating&order=desc&version=gold'
-
+        print(page)
+        if page < 71:
+            url = 'https://www.futbin.com/20/players?page='+str(page)+'&sort=Player_Rating&order=desc&version=gold'
+        elif page >= 71 and page < 352:
+            url = 'https://www.futbin.com/20/players?page='+str(page-70)+'&sort=Player_Rating&order=desc&version=silver'
+        else:
+             url = 'https://www.futbin.com/20/players?page='+str(page-351)+'&sort=Player_Rating&order=desc&version=bronze'
+             
         # Retrieve data from url
         response = requests.get(url)
         # BeautifulSoup parser
@@ -50,7 +56,6 @@ def connection():
     playersData.to_csv('FIFA Player Info.csv')
     return(pd.read_csv('FIFA Player Info.csv'))
         
-        
 def NoneTypeCheck(data, listname, item = None, iterator = None, get = None):
     if data is not None and get is not None:
         data = data.findAll(item)[iterator]
@@ -59,6 +64,17 @@ def NoneTypeCheck(data, listname, item = None, iterator = None, get = None):
     elif data is not None:
         listname.append(data.text)
 
+def position(DFColumn):
+    positions = {
+            'Attacker' : ['CF', 'ST', 'RW', 'RF', 'LW', 'LF'], 
+            'Midfieder' : ['RM', 'LM', 'CAM', 'CM', 'CDM'],
+            'Defender' : ['LB', 'LWB', 'RB', 'RWB', 'CB'],
+            'Goal Keeper' : ['GK']}
+    for position in positions.keys():
+        if DFColumn in positions.get(position):
+            return(position)
    
 if __name__ == '__main__':
-    connection()
+    DF = connection()
+    DF.insert(6, "Position Group", DF['Position'].apply(position), True) 
+    
