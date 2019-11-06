@@ -7,7 +7,6 @@ import pandas as pd
 import pycountry
 import pycountry_convert
 
-
 def connection():
    playersData = pd.DataFrame()
    for page in range(1,560):
@@ -19,9 +18,9 @@ def connection():
            url = 'https://www.futbin.com/20/players?page='+str(page-70)+'&sort=Player_Rating&order=desc&version=silver'
        else:
             url = 'https://www.futbin.com/20/players?page='+str(page-351)+'&sort=Player_Rating&order=desc&version=bronze'
-            
-       # Retrieve data from url
-       response = requests.get(url)
+       
+       response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+
        # BeautifulSoup parser
        soup = BeautifulSoup(response.text, 'html.parser')
        rows = soup.find_all('tr')
@@ -55,10 +54,10 @@ def connection():
                            'Skill' , 'Weak Foot', 'Work Rate', 'Pace', 'Shooting', 'Passing',
                            'Dribbling' , 'Defending', 'Physicality', 'Height', 'Base Stats',
                            'In Game Stats']
+   playersData.insert(3, "Continent", playersData['Country'].apply(continent) , True)
+   playersData.insert(7, "Position Group", playersData['Position'].apply(position), True)
    
-   playersData.insert(6, "Position Group", playersData['Position'].apply(position), True)
-   playersData.insert(4, "Continent", playersData['Country'].apply(continent) , True)
-   playersData.drop_duplicates(subset = ['Name', 'Overall Rating', 'Position'], keep = 'last', inplace = True) 
+   playersData.drop_duplicates(subset = ['Name', 'Overall Rating', 'Position'], keep = 'last', inplace = True)
     
    playersData.to_csv('FIFA Player Info.csv')
    return(pd.read_csv('FIFA Player Info.csv'))
