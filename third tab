@@ -28,6 +28,8 @@ TOOLTIPS=[
 ]
 p3 = figure(title="Histogram for Pace", background_fill_color="#fafafa", plot_height=700, plot_width=900)
 hist, edges = np.histogram(fifa['Pace'], density=False, bins=20)
+#hist, edges = np.histogram(fifa['Shooting'], density=False, bins='auto')
+
 p3.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],
         fill_color="navy", line_color="black", alpha=0.5)
 
