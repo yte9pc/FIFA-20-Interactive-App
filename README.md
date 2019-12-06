@@ -3,6 +3,8 @@
 
 Data visualization app for users to explore FIFA 2020 player skills rating and help video gamers pick the best starting 11.
 
-Bokeh app can be run local by running the command
+Steps to running application
+1. Download this repo as a zip file and extract content
+2. Navigate to the location of FIFAApp.ipynb and run this command
 " bokeh serve --show FIFAApp.ipynb "
 
