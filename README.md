@@ -1,5 +1,4 @@
-# CS5010-Final-Project
-## DSI CS5010 Final Project
+# FIFA 20 Interactive App
 
 Data visualization app for users to explore FIFA 2020 player skills rating and help video gamers pick the best starting 11.
 
